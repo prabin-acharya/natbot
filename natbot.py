@@ -10,6 +10,7 @@ import time
 from sys import argv, exit, platform
 import openai
 import os
+import json
 
 quiet = False
 if len(argv) >= 2:
@@ -266,6 +267,10 @@ class Crawler:
         )
         strings = tree["strings"]
 
+        # writes DOM Snapshot to file tree.json
+        with open("tree.json", "w") as f:
+            f.write(json.dumps(tree, indent=4, sort_keys=True))
+
         document = tree["documents"][0]
         nodes = document["nodes"]
         backend_node_id = nodes["backendNodeId"]
@@ -359,8 +364,9 @@ class Crawler:
 
             return value
 
-##############################################################################
-##############################################################################
+# **************************************************************************
+# **************************************************************************
+
         for index, node_name_index in enumerate(node_names):
             node_parent = parent[index]
             node_name = strings[node_name_index].lower()
